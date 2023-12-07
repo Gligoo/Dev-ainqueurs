@@ -2,9 +2,7 @@
 framework:
     secret: '%env(APP_SECRET)%'
     #csrf_protection: true
-    annotations:
-        cache: 'file' # ou 'apc' ou 'php_array' selon votre environnement
-        debug: '%kernel.debug%'
+    annotations: true
     http_method_override: false
     handle_all_throwables: true
 
