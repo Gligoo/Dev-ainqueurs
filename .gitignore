@@ -9,3 +9,10 @@
 /vendor/
 /idea/*
 ###< symfony/framework-bundle ###
+/migrations/.gitignore
+/src/Entity/.gitignore
+/src/Repository/.gitignore
+/.idea/Dev-ainqueurs.iml
+/.idea/modules.xml
+/.idea/php.xml
+/.idea/vcs.xml
