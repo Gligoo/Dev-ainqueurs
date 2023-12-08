@@ -10,6 +10,7 @@
 /idea/*
 ###< symfony/framework-bundle ###
 /migrations/.gitignore
+/migrations/*.php
 /src/Entity/.gitignore
 /src/Repository/.gitignore
 /.idea/Dev-ainqueurs.iml

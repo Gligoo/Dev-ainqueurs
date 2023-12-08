@@ -14,7 +14,6 @@ class UserController extends AbstractController
     public function getAllUser(EntityManagerInterface $entityManager): JsonResponse
     {
         $users = $entityManager->getRepository(User::class)->findAll();
-        dump($users);
 
         $usersArray = [];
         foreach ($users as $user) {

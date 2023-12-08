@@ -14,7 +14,6 @@ class AnswerController extends AbstractController
     public function getAllAnswer(EntityManagerInterface $entityManager): JsonResponse
     {
         $answers = $entityManager->getRepository(Answer::class)->findAll();
-        dump($answers);
 
         $answersArray = [];
         foreach ($answers as $answer) {

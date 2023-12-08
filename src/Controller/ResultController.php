@@ -14,7 +14,6 @@ class ResultController extends AbstractController
     public function getAllResult(EntityManagerInterface $entityManager): JsonResponse
     {
         $results = $entityManager->getRepository(Result::class)->findAll();
-        dump($results);
 
         $resultsArray = [];
         foreach ($results as $result) {

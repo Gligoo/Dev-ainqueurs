@@ -14,7 +14,6 @@ class QuestionController extends AbstractController
     public function getAllQuestions(EntityManagerInterface $entityManager): JsonResponse
     {
         $questions = $entityManager->getRepository(Question::class)->findAll();
-        dump($questions);
 
         $questionsArray = [];
         foreach ($questions as $question) {
