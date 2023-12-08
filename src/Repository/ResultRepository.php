@@ -21,6 +21,16 @@ class ResultRepository extends ServiceEntityRepository
         parent::__construct($registry, Result::class);
     }
 
+    public function findBest(): array
+    {
+        return $this->createQueryBuilder('r')
+            ->orderBy('r.id', 'DESC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 //    /**
 //     * @return Result[] Returns an array of Result objects
 //     */
