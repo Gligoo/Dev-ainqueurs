@@ -2,18 +2,28 @@
 
 namespace App\Controller;
 
+use App\Entity\Answer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
 
 class AnswerController extends AbstractController
 {
     #[Route('/answer', name: 'app_answer')]
-    public function index(): JsonResponse
+    public function getAllAnswer(EntityManagerInterface $entityManager): JsonResponse
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/AnswerController.php',
-        ]);
+        $answers = $entityManager->getRepository(Answer::class)->findAll();
+        dump($answers);
+
+        $answersArray = [];
+        foreach ($answers as $answer) {
+            $answersArray[] = [
+                'id' => $answer->getId(),
+                'answer_text' => $answer->getAnswerText(),
+            ];
+        }
+
+        return $this->json($answersArray);
     }
 }

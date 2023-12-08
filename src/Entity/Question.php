@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\QuestionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: QuestionRepository::class)]
@@ -16,8 +18,13 @@ class Question
     #[ORM\Column(length: 255)]
     private ?string $questionText = null;
 
-    #[ORM\OneToOne(mappedBy: 'question', cascade: ['persist', 'remove'])]
-    private ?Answer $answer = null;
+    #[ORM\OneToMany(mappedBy: 'question', targetEntity: Answer::class)]
+    private Collection $answer;
+
+    public function __construct()
+    {
+        $this->answer = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -36,20 +43,34 @@ class Question
         return $this;
     }
 
-    public function getAnswer(): ?Answer
+    /**
+     * @return Collection<int, Answer>
+     */
+    public function getAnswer(): Collection
     {
         return $this->answer;
     }
 
-    public function setAnswer(Answer $answer): static
+    public function addAnswer(Answer $answer): static
     {
-        // set the owning side of the relation if necessary
-        if ($answer->getQuestion() !== $this) {
+        if (!$this->answer->contains($answer)) {
+            $this->answer->add($answer);
             $answer->setQuestion($this);
         }
 
-        $this->answer = $answer;
+        return $this;
+    }
+
+    public function removeAnswer(Answer $answer): static
+    {
+        if ($this->answer->removeElement($answer)) {
+            // set the owning side to null (unless already changed)
+            if ($answer->getQuestion() === $this) {
+                $answer->setQuestion(null);
+            }
+        }
 
         return $this;
     }
+
 }

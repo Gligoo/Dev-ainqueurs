@@ -20,8 +20,6 @@ class Answer
     #[ORM\Column]
     private ?bool $isCorrect = null;
 
-    #[ORM\Column]
-    private ?bool $isFalse = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $positiveImpact = null;
@@ -29,7 +27,7 @@ class Answer
     #[ORM\Column(type: Types::TEXT)]
     private ?string $negativeImpact = null;
 
-    #[ORM\OneToOne(inversedBy: 'answer', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'answer')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Question $question = null;
 
@@ -58,18 +56,6 @@ class Answer
     public function setIsCorrect(bool $isCorrect): static
     {
         $this->isCorrect = $isCorrect;
-
-        return $this;
-    }
-
-    public function isIsFalse(): ?bool
-    {
-        return $this->isFalse;
-    }
-
-    public function setIsFalse(bool $isFalse): static
-    {
-        $this->isFalse = $isFalse;
 
         return $this;
     }
@@ -103,10 +89,12 @@ class Answer
         return $this->question;
     }
 
-    public function setQuestion(Question $question): static
+    public function setQuestion(?Question $question): static
     {
         $this->question = $question;
 
         return $this;
     }
+
+
 }

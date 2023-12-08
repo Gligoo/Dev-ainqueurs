@@ -2,18 +2,28 @@
 
 namespace App\Controller;
 
+use App\Entity\Result;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
 
 class ResultController extends AbstractController
 {
     #[Route('/result', name: 'app_result')]
-    public function index(): JsonResponse
+    public function getAllResult(EntityManagerInterface $entityManager): JsonResponse
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/ResultController.php',
-        ]);
+        $results = $entityManager->getRepository(Result::class)->findAll();
+        dump($results);
+
+        $resultsArray = [];
+        foreach ($results as $result) {
+            $resultsArray[] = [
+                'id' => $result->getId(),
+                'answer_text' => $result->getAnswerText(),
+            ];
+        }
+
+        return $this->json($resultsArray);
     }
 }
